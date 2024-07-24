@@ -18,9 +18,6 @@ function createTableFromCSV(csvContent) {
     const table = document.createElement('table');
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
-    
-    const expectedEventHeaders = ['eventid', 'eventname', 'startdate', 'enddate'];
-    const expectedTaskHeaders = ['eventid', 'taskname'];
 
     rows.forEach((row, rowIndex) => {
         if (row.trim() !== "") {
