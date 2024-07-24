@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventTask</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="import-page">
+        <div class="event-management-header">
+            <div class="event-management-header-heading">
+                EVENT MANAGEMENT
+            </div>
+        </div>
+        <div class="import-interface">
+            <div class="import-heading">
+                IMPORT YOUR FILES HERE
+            </div>
+            <div class="importing-elements">
+                <div class="import-type-select">
+                    <label for="type-of-file">
+                        Specify the file type :
+                    </label>
+                    <select id="type-of-file">
+                        <option value="" disabled selected>Select your file type</option>
+                        <option value="event">Event</option>
+                        <option value="task">Task</option>
+                    </select>
+                </div>
+                <div class="import-box">
+                    <label for="file-input">
+                        DROP YOUR FILE HERE
+                    </label>
+                    <input type="file" id="file-input" accept=".csv">
+                </div>
+            </div>
+            <div class="import-submit-button">
+                <input type="submit" value="SUBMIT" onclick="displayEvent()">
+            </div>
+        </div>
+    </div> 
+    <script src="script.js"></script> 
+</body>
+</html>
+

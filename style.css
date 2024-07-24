@@ -1,0 +1,76 @@
+body{
+    padding: 0px;
+    margin: 0px;
+}
+
+.import-page{
+    height: 100vh;
+    width: 100%;
+    background-color: bisque;
+}
+
+.event-management-header{
+    background-color: brown;
+    color: white;
+    padding: 20px;
+    margin-bottom:20px;
+    text-align: center;
+}
+
+.event-management-header-heading{
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.import-interface{
+    height: calc(100%-50px);
+    width: 60%;
+    margin: 6% 20% 0px 20%;
+    padding: 2% 0 4% 0; 
+    background-color: brown;
+    color: white;
+    text-align: center;
+}
+
+.import-heading{
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-top: 40px ;
+    margin-bottom: 40px;
+}
+
+.import-type-select{
+    margin-bottom: 40px;
+}
+
+.import-box label {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.import-box input {
+    display: block;
+    margin: 0 auto 0 320px;
+}
+
+
+.import-submit-button input{
+    margin-top: 40px;
+    padding: 6px;
+    border-radius: 6px;
+    background-color: aquamarine;
+    border-color: black 1px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+
