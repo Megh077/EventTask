@@ -1,18 +1,13 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const eventFileContent = localStorage.getItem('eventFile');
-    const statusArray = JSON.parse(localStorage.getItem('statusArray') || '{}');
-    
     if (eventFileContent) {
         const jsonData = JSON.parse(eventFileContent);
-        const eventTable = createTableFromJSON(jsonData, true, statusArray); 
+        const eventTable = createTableFromJSON(jsonData, true); 
         document.getElementById('event-file-content').appendChild(eventTable);
     }
 });
 
-
-function createTableFromJSON(jsonData, isEventTable = false, statusArray = {}) {
+function createTableFromJSON(jsonData, isEventTable = false) {
     const table = document.createElement('table');
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
@@ -29,18 +24,14 @@ function createTableFromJSON(jsonData, isEventTable = false, statusArray = {}) {
             headerRow.appendChild(th);
         });
         
-        // Append 'Status' and 'Action' columns only if it's an event table
         if (isEventTable) {
-            // Check if 'Status' column already exists
-            if (!headers.includes('Status')) {
-                const statusTh = document.createElement('th');
-                statusTh.textContent = 'Status';
-                headerRow.appendChild(statusTh);
+            const statusTh = document.createElement('th');
+            statusTh.textContent = 'Status';
+            headerRow.appendChild(statusTh);
 
-                const actionTh = document.createElement('th');
-                actionTh.textContent = 'Action';
-                headerRow.appendChild(actionTh);
-            }
+            const actionTh = document.createElement('th');
+            actionTh.textContent = 'Action';
+            headerRow.appendChild(actionTh);
         }
         
         thead.appendChild(headerRow);
@@ -64,17 +55,14 @@ function createTableFromJSON(jsonData, isEventTable = false, statusArray = {}) {
                 } else if (currentDate > endDate) {
                     status = 'Failed';
                 } else if (currentDate < startDate) {
-                    status = 'Not Completed';
+                    status = 'Not Started';
                 }
 
-                // Update status based on task statuses
-                const eventId = item['eventid'];
-                const taskStatuses = statusArray[eventId];
-                if (taskStatuses) {
-                    const allCompleted = Object.values(taskStatuses).every(status => status === 'Completed');
-                    if (allCompleted) {
-                        status = 'Completed';
-                    }
+                const { allCompleted, inProgress } = getEventStatus(item['eventid']);
+                if (inProgress) {
+                    status = 'In Progress';
+                } else if (allCompleted) {
+                    status = 'Completed';
                 }
 
                 statusTd.textContent = status;
@@ -100,13 +88,23 @@ function createTableFromJSON(jsonData, isEventTable = false, statusArray = {}) {
     return table;
 }
 
-
-
-
-
 function handleActionButtonClick(eventId) {
     localStorage.setItem('selectedEventId', eventId);
     window.location.href = 'eventTasks.html';
 }
 
+function getEventStatus(eventId) {
+    const statusArray = getStatusArray();
+    if (!statusArray[eventId]) return { allCompleted: false, inProgress: false };
 
+    const statuses = Object.values(statusArray[eventId]);
+    const allCompleted = statuses.every(status => status === 'Completed');
+    const inProgress = statuses.some(status => status === 'In Progress');
+
+    return { allCompleted, inProgress };
+}
+
+function getStatusArray() {
+    const statusArray = localStorage.getItem('statusArray');
+    return statusArray ? JSON.parse(statusArray) : {};
+}
