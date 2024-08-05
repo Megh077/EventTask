@@ -13,13 +13,10 @@ function showWarningModal(message) {
       }
     }
   }
-  
-  
 let eventFileContent = '';
 let taskFileContent = '';
 let eventUploaded = false;
 let taskUploaded = false;
-
 const expectedEventHeaders = ['eventid', 'eventname', 'startdate', 'enddate'];
 const expectedTaskHeaders = ['eventid', 'taskname'];
 
@@ -29,16 +26,12 @@ function handleEventFile(file) {
         const csvContent = e.target.result;
         const rows = csvContent.trim().split('\n');
         const headers = rows[0].split(',').map(header => header.trim());
-
-        if (!validateHeaders(headers, expectedEventHeaders)) {
+        if (!validateHeaders(headers,expectedEventHeaders)) {
             showWarningModal("Invalid event file headers");
             return;
         }
-
-        const jsonData = csvToJson(csvContent);
-
-        
-        for (const event of jsonData) {
+    const jsonData = csvToJson(csvContent);
+    for (const event of jsonData) {
             const startDate = new Date(event['startdate']);
             const endDate = new Date(event['enddate']);
             if (endDate < startDate) {
@@ -46,13 +39,10 @@ function handleEventFile(file) {
                 return;
             }
         }
-
-        
         for (let i = 0; i < jsonData.length; i++) {
             const eventA = jsonData[i];
             const startDateA = new Date(eventA['startdate']);
             const endDateA = new Date(eventA['enddate']);
-
             for (let j = i + 1; j < jsonData.length; j++) {
                 const eventB = jsonData[j];
                 const startDateB = new Date(eventB['startdate']);
@@ -65,18 +55,13 @@ function handleEventFile(file) {
             }
         }
 
-        
         const eventIds = jsonData.map(event => event['eventid']);
         const uniqueEventIds = new Set(eventIds);
         if (uniqueEventIds.size !== eventIds.length) {
             showWarningModal("Event IDs are not unique in the event file.");
             return;
         }
-
- 
-localStorage.setItem('eventFile', JSON.stringify(jsonData));
-
-        
+        localStorage.setItem('eventFile', JSON.stringify(jsonData));
         const currentEventStatus = {};
         const currentDate = new Date();
         jsonData.forEach(event => {
@@ -110,14 +95,11 @@ function handleTaskFile(file) {
         const csvContent = e.target.result;
         const rows = csvContent.trim().split('\n');
         const headers = rows[0].split(',').map(header => header.trim());
-
         if (!validateHeaders(headers, expectedTaskHeaders)) {
             showWarningModal("Invalid task file headers");
             return;
         }
-
         const jsonData = csvToJson(csvContent);
-
         const eventFileContent = localStorage.getItem('eventFile');
         if (eventFileContent) {
             const eventJsonData = JSON.parse(eventFileContent);
@@ -184,4 +166,3 @@ function updateNextPageButtonVisibility() {
 function goToNextpage() {
     window.location.href = 'display.html';
 }
-
